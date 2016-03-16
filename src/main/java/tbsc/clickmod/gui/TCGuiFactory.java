@@ -1,8 +1,8 @@
 package tbsc.clickmod.gui;
 
+import cpw.mods.fml.client.IModGuiFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.client.IModGuiFactory;
 
 import java.util.Set;
 
@@ -22,7 +22,7 @@ public class TCGuiFactory implements IModGuiFactory {
     }
 
     @Override
-    public Set<IModGuiFactory.RuntimeOptionCategoryElement> runtimeGuiCategories() {
+    public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
         return null;
     }
 

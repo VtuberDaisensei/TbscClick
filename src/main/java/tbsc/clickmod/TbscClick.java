@@ -1,5 +1,14 @@
 package tbsc.clickmod;
 
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
@@ -8,15 +17,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.input.Keyboard;
 
 @Mod(modid = TbscClick.MODID, version = TbscClick.VERSION, guiFactory = TbscClick.GUI_FACTORY, canBeDeactivated = true)
@@ -85,14 +85,14 @@ public class TbscClick {
 
             if (shouldLeftClick) {
                 MovingObjectPosition rayTrace = minecraft.thePlayer.rayTrace(5, clickDelay);
-                if (rayTrace.getBlockPos() != null) // Safe check
-                    minecraft.playerController.clickBlock(rayTrace.getBlockPos(), rayTrace.sideHit);
+                if (rayTrace.typeOfHit != MovingObjectPosition.MovingObjectType.MISS) // Safe check
+                    minecraft.playerController.clickBlock(rayTrace.blockX, rayTrace.blockY, rayTrace.blockZ, rayTrace.sideHit);
             }
             if (shouldRightClick) {
                 MovingObjectPosition rayTrace = minecraft.thePlayer.rayTrace(5, clickDelay);
-                if (rayTrace.getBlockPos() != null)
+                if (rayTrace.typeOfHit != MovingObjectPosition.MovingObjectType.MISS)
                     minecraft.playerController.onPlayerRightClick(minecraft.thePlayer, minecraft.theWorld,
-                        minecraft.thePlayer.getHeldItem(), rayTrace.getBlockPos(), rayTrace.sideHit, rayTrace.hitVec);
+                        minecraft.thePlayer.getHeldItem(), rayTrace.blockX, rayTrace.blockY, rayTrace.blockZ, rayTrace.sideHit, rayTrace.hitVec);
             }
         }
     }
@@ -102,11 +102,11 @@ public class TbscClick {
         Minecraft minecraft = Minecraft.getMinecraft();
 
         if (shouldLeftClick && shouldRightClick) {
-            minecraft.fontRendererObj.drawString(EnumChatFormatting.BOLD + "Auto-Clicking RClick + LClick", 6, 6, 0xFF0000);
+            minecraft.fontRenderer.drawString(EnumChatFormatting.BOLD + "Auto-Clicking RClick + LClick", 6, 6, 0xFF0000);
         } else if (shouldLeftClick) {
-            minecraft.fontRendererObj.drawString(EnumChatFormatting.BOLD + "Auto-Clicking LClick", 6, 6, 0x00FF00);
+            minecraft.fontRenderer.drawString(EnumChatFormatting.BOLD + "Auto-Clicking LClick", 6, 6, 0x00FF00);
         } else if (shouldRightClick) {
-            minecraft.fontRendererObj.drawString(EnumChatFormatting.BOLD + "Auto-Clicking RClick", 6, 6, 0xFF00FF);
+            minecraft.fontRenderer.drawString(EnumChatFormatting.BOLD + "Auto-Clicking RClick", 6, 6, 0xFF00FF);
         }
     }
 
