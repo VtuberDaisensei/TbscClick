@@ -1,0 +1,16 @@
+[
+{
+  "modid": "TbscClick",
+  "name": "TbscClick",
+  "description": "Tbsc's auto clicker mod!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Tbsc"],
+  "credits": "Tbsc",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

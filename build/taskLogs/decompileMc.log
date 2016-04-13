@@ -1,0 +1,7 @@
+INFO:  Adding File to context from classpath: /usr/share/java/gradle/lib/gradle-launcher-2.12.jar
+INFO:  Adding File to context from classpath: /usr/lib/jvm/java-8-jdk/jre/lib/resources.jar
+INFO:  Adding File to context from classpath: /usr/lib/jvm/java-8-jdk/jre/lib/rt.jar
+INFO:  Adding File to context from classpath: /usr/lib/jvm/java-8-jdk/jre/lib/jsse.jar
+INFO:  Adding File to context from classpath: /usr/lib/jvm/java-8-jdk/jre/lib/jce.jar
+INFO:  Adding File to context from classpath: /usr/lib/jvm/java-8-jdk/jre/lib/charsets.jar
+INFO:  Adding File to context from classpath: /usr/lib/jvm/java-8-jdk/jre/lib/jfr.jar

@@ -1,0 +1,205 @@
+Symbol range map extraction starting
+Processing 3 files
+processing tbsc\clickmod\TbscClick.java
+@|tbsc\clickmod\TbscClick.java|8|21|tbsc.clickmod|package|tbsc.clickmod|(file)
+Class Start: tbsc.clickmod.TbscClick
+   @|tbsc\clickmod\TbscClick.java|1135|1141|String|class|java.lang.String
+   @|tbsc\clickmod\TbscClick.java|1142|1147|MODID|field|tbsc.clickmod.TbscClick|MODID|
+   @|tbsc\clickmod\TbscClick.java|1187|1193|String|class|java.lang.String
+   @|tbsc\clickmod\TbscClick.java|1194|1201|VERSION|field|tbsc.clickmod.TbscClick|VERSION|
+   @|tbsc\clickmod\TbscClick.java|1237|1243|String|class|java.lang.String
+   @|tbsc\clickmod\TbscClick.java|1244|1255|GUI_FACTORY|field|tbsc.clickmod.TbscClick|GUI_FACTORY|
+   @|tbsc\clickmod\TbscClick.java|1318|1333|shouldLeftClick|field|tbsc.clickmod.TbscClick|shouldLeftClick|
+   @|tbsc\clickmod\TbscClick.java|1369|1385|shouldRightClick|field|tbsc.clickmod.TbscClick|shouldRightClick|
+   @|tbsc\clickmod\TbscClick.java|1413|1423|KeyBinding|class|net.minecraft.client.settings.KeyBinding
+   @|tbsc\clickmod\TbscClick.java|1424|1438|keyToggleRight|field|tbsc.clickmod.TbscClick|keyToggleRight|
+   @|tbsc\clickmod\TbscClick.java|1458|1468|KeyBinding|class|net.minecraft.client.settings.KeyBinding
+   @|tbsc\clickmod\TbscClick.java|1469|1482|keyToggleLeft|field|tbsc.clickmod.TbscClick|keyToggleLeft|
+   @|tbsc\clickmod\TbscClick.java|1502|1515|Configuration|class|net.minecraftforge.common.config.Configuration
+   @|tbsc\clickmod\TbscClick.java|1516|1522|config|field|tbsc.clickmod.TbscClick|config|
+   @|tbsc\clickmod\TbscClick.java|1548|1558|clickDelay|field|tbsc.clickmod.TbscClick|clickDelay|
+   Method Start: preInit(Lnet/minecraftforge/fml/common/event/FMLPreInitializationEvent;)V
+      @|tbsc\clickmod\TbscClick.java|1606|1613|preInit|method|tbsc.clickmod.TbscClick|preInit|(Lnet/minecraftforge/fml/common/event/FMLPreInitializationEvent;)V
+      @|tbsc\clickmod\TbscClick.java|1614|1639|FMLPreInitializationEvent|class|net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+      @|tbsc\clickmod\TbscClick.java|1640|1645|event|param|tbsc.clickmod.TbscClick|preInit|(Lnet/minecraftforge/fml/common/event/FMLPreInitializationEvent;)V|event|0
+      @|tbsc\clickmod\TbscClick.java|1661|1666|event|param|tbsc.clickmod.TbscClick|preInit|(Lnet/minecraftforge/fml/common/event/FMLPreInitializationEvent;)V|event|0
+      @|tbsc\clickmod\TbscClick.java|1667|1674|getSide|method|net.minecraftforge.fml.common.event.FMLStateEvent|getSide|()Lnet/minecraftforge/fml/relauncher/Side;
+      @|tbsc\clickmod\TbscClick.java|1680|1684|Side|class|net.minecraftforge.fml.relauncher.Side
+      @|tbsc\clickmod\TbscClick.java|1685|1691|SERVER|field|net.minecraftforge.fml.relauncher.Side|SERVER
+      @|tbsc\clickmod\TbscClick.java|1707|1713|FMLLog|class|net.minecraftforge.fml.common.FMLLog
+      @|tbsc\clickmod\TbscClick.java|1714|1724|bigWarning|method|net.minecraftforge.fml.common.FMLLog|bigWarning|(Ljava/lang/String;[Ljava/lang/Object;)V
+      @|tbsc\clickmod\TbscClick.java|1798|1804|FMLLog|class|net.minecraftforge.fml.common.FMLLog
+      @|tbsc\clickmod\TbscClick.java|1805|1815|bigWarning|method|net.minecraftforge.fml.common.FMLLog|bigWarning|(Ljava/lang/String;[Ljava/lang/Object;)V
+      @|tbsc\clickmod\TbscClick.java|1891|1907|FMLCommonHandler|class|net.minecraftforge.fml.common.FMLCommonHandler
+      @|tbsc\clickmod\TbscClick.java|1908|1916|instance|method|net.minecraftforge.fml.common.FMLCommonHandler|instance|()Lnet/minecraftforge/fml/common/FMLCommonHandler;
+      @|tbsc\clickmod\TbscClick.java|1919|1927|exitJava|method|net.minecraftforge.fml.common.FMLCommonHandler|exitJava|(IZ)V
+      @|tbsc\clickmod\TbscClick.java|1957|1971|MinecraftForge|class|net.minecraftforge.common.MinecraftForge
+      @|tbsc\clickmod\TbscClick.java|1972|1981|EVENT_BUS|field|net.minecraftforge.common.MinecraftForge|EVENT_BUS
+      @|tbsc\clickmod\TbscClick.java|1982|1990|register|method|net.minecraftforge.fml.common.eventhandler.EventBus|register|(Ljava/lang/Object;)V
+      @|tbsc\clickmod\TbscClick.java|2006|2012|config|field|tbsc.clickmod.TbscClick|config
+      @|tbsc\clickmod\TbscClick.java|2019|2032|Configuration|class|net.minecraftforge.common.config.Configuration
+      @|tbsc\clickmod\TbscClick.java|2033|2038|event|param|tbsc.clickmod.TbscClick|preInit|(Lnet/minecraftforge/fml/common/event/FMLPreInitializationEvent;)V|event|0
+      @|tbsc\clickmod\TbscClick.java|2039|2068|getSuggestedConfigurationFile|method|net.minecraftforge.fml.common.event.FMLPreInitializationEvent|getSuggestedConfigurationFile|()Ljava/io/File;
+      @|tbsc\clickmod\TbscClick.java|2081|2091|syncConfig|method|tbsc.clickmod.TbscClick|syncConfig|()V
+      @|tbsc\clickmod\TbscClick.java|2104|2118|keyToggleRight|field|tbsc.clickmod.TbscClick|keyToggleRight
+      @|tbsc\clickmod\TbscClick.java|2125|2135|KeyBinding|class|net.minecraft.client.settings.KeyBinding
+      @|tbsc\clickmod\TbscClick.java|2165|2173|Keyboard|class|org.lwjgl.input.Keyboard
+      @|tbsc\clickmod\TbscClick.java|2174|2179|KEY_G|field|org.lwjgl.input.Keyboard|KEY_G
+      @|tbsc\clickmod\TbscClick.java|2213|2226|keyToggleLeft|field|tbsc.clickmod.TbscClick|keyToggleLeft
+      @|tbsc\clickmod\TbscClick.java|2233|2243|KeyBinding|class|net.minecraft.client.settings.KeyBinding
+      @|tbsc\clickmod\TbscClick.java|2272|2280|Keyboard|class|org.lwjgl.input.Keyboard
+      @|tbsc\clickmod\TbscClick.java|2281|2286|KEY_H|field|org.lwjgl.input.Keyboard|KEY_H
+      @|tbsc\clickmod\TbscClick.java|2320|2334|ClientRegistry|class|net.minecraftforge.fml.client.registry.ClientRegistry
+      @|tbsc\clickmod\TbscClick.java|2335|2353|registerKeyBinding|method|net.minecraftforge.fml.client.registry.ClientRegistry|registerKeyBinding|(Lnet/minecraft/client/settings/KeyBinding;)V
+      @|tbsc\clickmod\TbscClick.java|2354|2368|keyToggleRight|field|tbsc.clickmod.TbscClick|keyToggleRight
+      @|tbsc\clickmod\TbscClick.java|2379|2393|ClientRegistry|class|net.minecraftforge.fml.client.registry.ClientRegistry
+      @|tbsc\clickmod\TbscClick.java|2394|2412|registerKeyBinding|method|net.minecraftforge.fml.client.registry.ClientRegistry|registerKeyBinding|(Lnet/minecraft/client/settings/KeyBinding;)V
+      @|tbsc\clickmod\TbscClick.java|2413|2426|keyToggleLeft|field|tbsc.clickmod.TbscClick|keyToggleLeft
+   Method End: preInit(Lnet/minecraftforge/fml/common/event/FMLPreInitializationEvent;)V
+   Method Start: syncConfig()V
+      @|tbsc\clickmod\TbscClick.java|2459|2469|syncConfig|method|tbsc.clickmod.TbscClick|syncConfig|()V
+      @|tbsc\clickmod\TbscClick.java|2527|2533|config|field|tbsc.clickmod.TbscClick|config
+      @|tbsc\clickmod\TbscClick.java|2534|2538|load|method|net.minecraftforge.common.config.Configuration|load|()V
+      @|tbsc\clickmod\TbscClick.java|2593|2601|Property|class|net.minecraftforge.common.config.Property
+      @|tbsc\clickmod\TbscClick.java|2619|2625|config|field|tbsc.clickmod.TbscClick|config
+      @|tbsc\clickmod\TbscClick.java|2626|2629|get|method|net.minecraftforge.common.config.Configuration|get|(Ljava/lang/String;Ljava/lang/String;DLjava/lang/String;)Lnet/minecraftforge/common/config/Property;
+      @|tbsc\clickmod\TbscClick.java|2630|2643|Configuration|class|net.minecraftforge.common.config.Configuration
+      @|tbsc\clickmod\TbscClick.java|2644|2660|CATEGORY_GENERAL|field|net.minecraftforge.common.config.Configuration|CATEGORY_GENERAL
+      @|tbsc\clickmod\TbscClick.java|2750|2760|clickDelay|field|tbsc.clickmod.TbscClick|clickDelay
+      @|tbsc\clickmod\TbscClick.java|2786|2795|getDouble|method|net.minecraftforge.common.config.Property|getDouble|()D
+      @|tbsc\clickmod\TbscClick.java|2816|2825|Exception|class|java.lang.Exception
+      @|tbsc\clickmod\TbscClick.java|2928|2934|config|field|tbsc.clickmod.TbscClick|config
+      @|tbsc\clickmod\TbscClick.java|2935|2945|hasChanged|method|net.minecraftforge.common.config.Configuration|hasChanged|()Z
+      @|tbsc\clickmod\TbscClick.java|2949|2955|config|field|tbsc.clickmod.TbscClick|config
+      @|tbsc\clickmod\TbscClick.java|2956|2960|save|method|net.minecraftforge.common.config.Configuration|save|()V
+   Method End: syncConfig()V
+   Method Start: onConfigChanged(Lnet/minecraftforge/fml/client/event/ConfigChangedEvent;)V
+      @|tbsc\clickmod\TbscClick.java|3017|3032|onConfigChanged|method|tbsc.clickmod.TbscClick|onConfigChanged|(Lnet/minecraftforge/fml/client/event/ConfigChangedEvent;)V
+      @|tbsc\clickmod\TbscClick.java|3033|3051|ConfigChangedEvent|class|net.minecraftforge.fml.client.event.ConfigChangedEvent
+      @|tbsc\clickmod\TbscClick.java|3052|3057|event|param|tbsc.clickmod.TbscClick|onConfigChanged|(Lnet/minecraftforge/fml/client/event/ConfigChangedEvent;)V|event|0
+      @|tbsc\clickmod\TbscClick.java|3069|3079|syncConfig|method|tbsc.clickmod.TbscClick|syncConfig|()V
+   Method End: onConfigChanged(Lnet/minecraftforge/fml/client/event/ConfigChangedEvent;)V
+   Method Start: onTick(Lnet/minecraftforge/fml/common/gameevent/TickEvent$ClientTickEvent;)V
+      @|tbsc\clickmod\TbscClick.java|3126|3132|onTick|method|tbsc.clickmod.TbscClick|onTick|(Lnet/minecraftforge/fml/common/gameevent/TickEvent$ClientTickEvent;)V
+      @|tbsc\clickmod\TbscClick.java|3133|3158|TickEvent.ClientTickEvent|class|net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
+      @|tbsc\clickmod\TbscClick.java|3159|3164|event|param|tbsc.clickmod.TbscClick|onTick|(Lnet/minecraftforge/fml/common/gameevent/TickEvent$ClientTickEvent;)V|event|0
+      @|tbsc\clickmod\TbscClick.java|3176|3185|Minecraft|class|net.minecraft.client.Minecraft
+      @|tbsc\clickmod\TbscClick.java|3198|3207|Minecraft|class|net.minecraft.client.Minecraft
+      @|tbsc\clickmod\TbscClick.java|3208|3220|getMinecraft|method|net.minecraft.client.Minecraft|getMinecraft|()Lnet/minecraft/client/Minecraft;
+      @|tbsc\clickmod\TbscClick.java|3248|3260|isGamePaused|method|net.minecraft.client.Minecraft|isGamePaused|()Z
+      @|tbsc\clickmod\TbscClick.java|3283|3296|keyToggleLeft|field|tbsc.clickmod.TbscClick|keyToggleLeft
+      @|tbsc\clickmod\TbscClick.java|3297|3306|isPressed|method|net.minecraft.client.settings.KeyBinding|isPressed|()Z
+      @|tbsc\clickmod\TbscClick.java|3328|3343|shouldLeftClick|field|tbsc.clickmod.TbscClick|shouldLeftClick
+      @|tbsc\clickmod\TbscClick.java|3347|3362|shouldLeftClick|field|tbsc.clickmod.TbscClick|shouldLeftClick
+      @|tbsc\clickmod\TbscClick.java|3394|3408|keyToggleRight|field|tbsc.clickmod.TbscClick|keyToggleRight
+      @|tbsc\clickmod\TbscClick.java|3409|3418|isPressed|method|net.minecraft.client.settings.KeyBinding|isPressed|()Z
+      @|tbsc\clickmod\TbscClick.java|3440|3456|shouldRightClick|field|tbsc.clickmod.TbscClick|shouldRightClick
+      @|tbsc\clickmod\TbscClick.java|3460|3476|shouldRightClick|field|tbsc.clickmod.TbscClick|shouldRightClick
+      @|tbsc\clickmod\TbscClick.java|3509|3524|shouldLeftClick|field|tbsc.clickmod.TbscClick|shouldLeftClick
+      @|tbsc\clickmod\TbscClick.java|3544|3564|MovingObjectPosition|class|net.minecraft.util.MovingObjectPosition
+      @|tbsc\clickmod\TbscClick.java|3586|3595|thePlayer|field|net.minecraft.client.Minecraft|thePlayer
+      @|tbsc\clickmod\TbscClick.java|3596|3604|rayTrace|method|net.minecraft.entity.Entity|rayTrace|(DF)Lnet/minecraft/util/MovingObjectPosition;
+      @|tbsc\clickmod\TbscClick.java|3608|3618|clickDelay|field|tbsc.clickmod.TbscClick|clickDelay
+      @|tbsc\clickmod\TbscClick.java|3650|3659|typeOfHit|field|net.minecraft.util.MovingObjectPosition|typeOfHit
+      @|tbsc\clickmod\TbscClick.java|3663|3700|MovingObjectPosition.MovingObjectType|class|net.minecraft.util.MovingObjectPosition.MovingObjectType
+      @|tbsc\clickmod\TbscClick.java|3701|3705|MISS|field|net.minecraft.util.MovingObjectPosition.MovingObjectType|MISS
+      @|tbsc\clickmod\TbscClick.java|3737|3753|playerController|field|net.minecraft.client.Minecraft|playerController
+      @|tbsc\clickmod\TbscClick.java|3754|3764|clickBlock|method|net.minecraft.client.multiplayer.PlayerControllerMP|clickBlock|(Lnet/minecraft/util/BlockPos;Lnet/minecraft/util/EnumFacing;)Z
+      @|tbsc\clickmod\TbscClick.java|3774|3785|getBlockPos|method|net.minecraft.util.MovingObjectPosition|getBlockPos|()Lnet/minecraft/util/BlockPos;
+      @|tbsc\clickmod\TbscClick.java|3798|3805|sideHit|field|net.minecraft.util.MovingObjectPosition|sideHit
+      @|tbsc\clickmod\TbscClick.java|3838|3854|shouldRightClick|field|tbsc.clickmod.TbscClick|shouldRightClick
+      @|tbsc\clickmod\TbscClick.java|3874|3894|MovingObjectPosition|class|net.minecraft.util.MovingObjectPosition
+      @|tbsc\clickmod\TbscClick.java|3916|3925|thePlayer|field|net.minecraft.client.Minecraft|thePlayer
+      @|tbsc\clickmod\TbscClick.java|3926|3934|rayTrace|method|net.minecraft.entity.Entity|rayTrace|(DF)Lnet/minecraft/util/MovingObjectPosition;
+      @|tbsc\clickmod\TbscClick.java|3938|3948|clickDelay|field|tbsc.clickmod.TbscClick|clickDelay
+      @|tbsc\clickmod\TbscClick.java|3980|3989|typeOfHit|field|net.minecraft.util.MovingObjectPosition|typeOfHit
+      @|tbsc\clickmod\TbscClick.java|3993|4030|MovingObjectPosition.MovingObjectType|class|net.minecraft.util.MovingObjectPosition.MovingObjectType
+      @|tbsc\clickmod\TbscClick.java|4031|4035|MISS|field|net.minecraft.util.MovingObjectPosition.MovingObjectType|MISS
+      @|tbsc\clickmod\TbscClick.java|4067|4083|playerController|field|net.minecraft.client.Minecraft|playerController
+      @|tbsc\clickmod\TbscClick.java|4084|4102|onPlayerRightClick|method|net.minecraft.client.multiplayer.PlayerControllerMP|onPlayerRightClick|(Lnet/minecraft/client/entity/EntityPlayerSP;Lnet/minecraft/client/multiplayer/WorldClient;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/BlockPos;Lnet/minecraft/util/EnumFacing;Lnet/minecraft/util/Vec3;)Z
+      @|tbsc\clickmod\TbscClick.java|4113|4122|thePlayer|field|net.minecraft.client.Minecraft|thePlayer
+      @|tbsc\clickmod\TbscClick.java|4134|4142|theWorld|field|net.minecraft.client.Minecraft|theWorld
+      @|tbsc\clickmod\TbscClick.java|4182|4191|thePlayer|field|net.minecraft.client.Minecraft|thePlayer
+      @|tbsc\clickmod\TbscClick.java|4192|4203|getHeldItem|method|net.minecraft.entity.EntityLivingBase|getHeldItem|()Lnet/minecraft/item/ItemStack;
+      @|tbsc\clickmod\TbscClick.java|4216|4227|getBlockPos|method|net.minecraft.util.MovingObjectPosition|getBlockPos|()Lnet/minecraft/util/BlockPos;
+      @|tbsc\clickmod\TbscClick.java|4240|4247|sideHit|field|net.minecraft.util.MovingObjectPosition|sideHit
+      @|tbsc\clickmod\TbscClick.java|4258|4264|hitVec|field|net.minecraft.util.MovingObjectPosition|hitVec
+   Method End: onTick(Lnet/minecraftforge/fml/common/gameevent/TickEvent$ClientTickEvent;)V
+   Method Start: onRenderGameOverlay(Lnet/minecraftforge/client/event/RenderGameOverlayEvent;)V
+      @|tbsc\clickmod\TbscClick.java|4334|4353|onRenderGameOverlay|method|tbsc.clickmod.TbscClick|onRenderGameOverlay|(Lnet/minecraftforge/client/event/RenderGameOverlayEvent;)V
+      @|tbsc\clickmod\TbscClick.java|4354|4376|RenderGameOverlayEvent|class|net.minecraftforge.client.event.RenderGameOverlayEvent
+      @|tbsc\clickmod\TbscClick.java|4377|4382|event|param|tbsc.clickmod.TbscClick|onRenderGameOverlay|(Lnet/minecraftforge/client/event/RenderGameOverlayEvent;)V|event|0
+      @|tbsc\clickmod\TbscClick.java|4394|4403|Minecraft|class|net.minecraft.client.Minecraft
+      @|tbsc\clickmod\TbscClick.java|4416|4425|Minecraft|class|net.minecraft.client.Minecraft
+      @|tbsc\clickmod\TbscClick.java|4426|4438|getMinecraft|method|net.minecraft.client.Minecraft|getMinecraft|()Lnet/minecraft/client/Minecraft;
+      @|tbsc\clickmod\TbscClick.java|4455|4470|shouldLeftClick|field|tbsc.clickmod.TbscClick|shouldLeftClick
+      @|tbsc\clickmod\TbscClick.java|4474|4490|shouldRightClick|field|tbsc.clickmod.TbscClick|shouldRightClick
+      @|tbsc\clickmod\TbscClick.java|4516|4531|fontRendererObj|field|net.minecraft.client.Minecraft|fontRendererObj
+      @|tbsc\clickmod\TbscClick.java|4532|4542|drawString|method|net.minecraft.client.gui.FontRenderer|drawString|(Ljava/lang/String;III)I
+      @|tbsc\clickmod\TbscClick.java|4543|4561|EnumChatFormatting|class|net.minecraft.util.EnumChatFormatting
+      @|tbsc\clickmod\TbscClick.java|4562|4566|BOLD|field|net.minecraft.util.EnumChatFormatting|BOLD
+      @|tbsc\clickmod\TbscClick.java|4638|4653|shouldLeftClick|field|tbsc.clickmod.TbscClick|shouldLeftClick
+      @|tbsc\clickmod\TbscClick.java|4679|4694|fontRendererObj|field|net.minecraft.client.Minecraft|fontRendererObj
+      @|tbsc\clickmod\TbscClick.java|4695|4705|drawString|method|net.minecraft.client.gui.FontRenderer|drawString|(Ljava/lang/String;III)I
+      @|tbsc\clickmod\TbscClick.java|4706|4724|EnumChatFormatting|class|net.minecraft.util.EnumChatFormatting
+      @|tbsc\clickmod\TbscClick.java|4725|4729|BOLD|field|net.minecraft.util.EnumChatFormatting|BOLD
+      @|tbsc\clickmod\TbscClick.java|4792|4808|shouldRightClick|field|tbsc.clickmod.TbscClick|shouldRightClick
+      @|tbsc\clickmod\TbscClick.java|4834|4849|fontRendererObj|field|net.minecraft.client.Minecraft|fontRendererObj
+      @|tbsc\clickmod\TbscClick.java|4850|4860|drawString|method|net.minecraft.client.gui.FontRenderer|drawString|(Ljava/lang/String;III)I
+      @|tbsc\clickmod\TbscClick.java|4861|4879|EnumChatFormatting|class|net.minecraft.util.EnumChatFormatting
+      @|tbsc\clickmod\TbscClick.java|4880|4884|BOLD|field|net.minecraft.util.EnumChatFormatting|BOLD
+   Method End: onRenderGameOverlay(Lnet/minecraftforge/client/event/RenderGameOverlayEvent;)V
+Class End  : tbsc.clickmod.TbscClick
+endProcessing tbsc\clickmod\TbscClick.java
+
+processing tbsc\clickmod\gui\GuiModConfig.java
+@|tbsc\clickmod\gui\GuiModConfig.java|8|25|tbsc.clickmod.gui|package|tbsc.clickmod.gui|(file)
+Class Start: tbsc.clickmod.gui.GuiModConfig
+   Method Start: GuiModConfig(Lnet/minecraft/client/gui/GuiScreen;)V
+      @|tbsc\clickmod\gui\GuiModConfig.java|368|380|GuiModConfig|method|tbsc.clickmod.gui.GuiModConfig|GuiModConfig|(Lnet/minecraft/client/gui/GuiScreen;)V
+      @|tbsc\clickmod\gui\GuiModConfig.java|381|390|GuiScreen|class|net.minecraft.client.gui.GuiScreen
+      @|tbsc\clickmod\gui\GuiModConfig.java|391|397|parent|param|tbsc.clickmod.gui.GuiModConfig|GuiModConfig|(Lnet/minecraft/client/gui/GuiScreen;)V|parent|0
+      @|tbsc\clickmod\gui\GuiModConfig.java|415|421|parent|param|tbsc.clickmod.gui.GuiModConfig|GuiModConfig|(Lnet/minecraft/client/gui/GuiScreen;)V|parent|0
+      @|tbsc\clickmod\gui\GuiModConfig.java|427|440|ConfigElement|class|net.minecraftforge.common.config.ConfigElement
+      @|tbsc\clickmod\gui\GuiModConfig.java|441|450|TbscClick|class|tbsc.clickmod.TbscClick
+      @|tbsc\clickmod\gui\GuiModConfig.java|451|457|config|field|tbsc.clickmod.TbscClick|config
+      @|tbsc\clickmod\gui\GuiModConfig.java|458|469|getCategory|method|net.minecraftforge.common.config.Configuration|getCategory|(Ljava/lang/String;)Lnet/minecraftforge/common/config/ConfigCategory;
+      @|tbsc\clickmod\gui\GuiModConfig.java|470|483|Configuration|class|net.minecraftforge.common.config.Configuration
+      @|tbsc\clickmod\gui\GuiModConfig.java|484|500|CATEGORY_GENERAL|field|net.minecraftforge.common.config.Configuration|CATEGORY_GENERAL
+      @|tbsc\clickmod\gui\GuiModConfig.java|503|519|getChildElements|method|net.minecraftforge.fml.client.config.IConfigElement|getChildElements|()Ljava/util/List;
+      @|tbsc\clickmod\gui\GuiModConfig.java|523|532|TbscClick|class|tbsc.clickmod.TbscClick
+      @|tbsc\clickmod\gui\GuiModConfig.java|533|538|MODID|field|tbsc.clickmod.TbscClick|MODID
+      @|tbsc\clickmod\gui\GuiModConfig.java|540|549|TbscClick|class|tbsc.clickmod.TbscClick
+      @|tbsc\clickmod\gui\GuiModConfig.java|550|555|MODID|field|tbsc.clickmod.TbscClick|MODID
+   Method End: GuiModConfig(Lnet/minecraft/client/gui/GuiScreen;)V
+Class End  : tbsc.clickmod.gui.GuiModConfig
+endProcessing tbsc\clickmod\gui\GuiModConfig.java
+
+processing tbsc\clickmod\gui\TCGuiFactory.java
+@|tbsc\clickmod\gui\TCGuiFactory.java|8|25|tbsc.clickmod.gui|package|tbsc.clickmod.gui|(file)
+Class Start: tbsc.clickmod.gui.TCGuiFactory
+   Method Start: initialize(Lnet/minecraft/client/Minecraft;)V
+      @|tbsc\clickmod\gui\TCGuiFactory.java|313|323|initialize|method|net.minecraftforge.fml.client.IModGuiFactory|initialize|(Lnet/minecraft/client/Minecraft;)V
+      @|tbsc\clickmod\gui\TCGuiFactory.java|324|333|Minecraft|class|net.minecraft.client.Minecraft
+      @|tbsc\clickmod\gui\TCGuiFactory.java|334|351|minecraftInstance|param|tbsc.clickmod.gui.TCGuiFactory|initialize|(Lnet/minecraft/client/Minecraft;)V|minecraftInstance|0
+   Method End: initialize(Lnet/minecraft/client/Minecraft;)V
+   Method Start: mainConfigGuiClass()Ljava/lang/Class;
+      @|tbsc\clickmod\gui\TCGuiFactory.java|415|433|mainConfigGuiClass|method|net.minecraftforge.fml.client.IModGuiFactory|mainConfigGuiClass|()Ljava/lang/Class;
+      @|tbsc\clickmod\gui\TCGuiFactory.java|404|413|GuiScreen|class|net.minecraft.client.gui.GuiScreen
+      @|tbsc\clickmod\gui\TCGuiFactory.java|388|393|Class|class|java.lang.Class
+      @|tbsc\clickmod\gui\TCGuiFactory.java|453|465|GuiModConfig|class|tbsc.clickmod.gui.GuiModConfig
+   Method End: mainConfigGuiClass()Ljava/lang/Class;
+   Method Start: runtimeGuiCategories()Ljava/util/Set;
+      @|tbsc\clickmod\gui\TCGuiFactory.java|539|559|runtimeGuiCategories|method|net.minecraftforge.fml.client.IModGuiFactory|runtimeGuiCategories|()Ljava/util/Set;
+      @|tbsc\clickmod\gui\TCGuiFactory.java|509|537|RuntimeOptionCategoryElement|class|net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionCategoryElement
+      @|tbsc\clickmod\gui\TCGuiFactory.java|505|508|Set|class|java.util.Set
+   Method End: runtimeGuiCategories()Ljava/util/Set;
+   Method Start: getHandlerFor(Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionCategoryElement;)Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionGuiHandler;
+      @|tbsc\clickmod\gui\TCGuiFactory.java|641|654|getHandlerFor|method|net.minecraftforge.fml.client.IModGuiFactory|getHandlerFor|(Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionCategoryElement;)Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionGuiHandler;
+      @|tbsc\clickmod\gui\TCGuiFactory.java|617|640|RuntimeOptionGuiHandler|class|net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionGuiHandler
+      @|tbsc\clickmod\gui\TCGuiFactory.java|655|683|RuntimeOptionCategoryElement|class|net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionCategoryElement
+      @|tbsc\clickmod\gui\TCGuiFactory.java|684|691|element|param|tbsc.clickmod.gui.TCGuiFactory|getHandlerFor|(Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionCategoryElement;)Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionGuiHandler;|element|0
+   Method End: getHandlerFor(Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionCategoryElement;)Lnet/minecraftforge/fml/client/IModGuiFactory$RuntimeOptionGuiHandler;
+Class End  : tbsc.clickmod.gui.TCGuiFactory
+endProcessing tbsc\clickmod\gui\TCGuiFactory.java
+
