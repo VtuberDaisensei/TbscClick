@@ -29,7 +29,7 @@ import java.util.List;
 public class TbscClick {
 
     public static final String MODID = "TbscClick";
-    public static final String VERSION = "2.0.0";
+    public static final String VERSION = "2.0.1";
     public static final String GUI_FACTORY = "tbsc.clickmod.gui.TCGuiFactory";
     public static boolean shouldLeftClick = false;
     public static boolean shouldRightClick = false;
@@ -111,12 +111,12 @@ public class TbscClick {
             }
 
             if (holdLeftWasPressed && !keyToggleHoldLeft.isPressed()) {
-                KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindAttack.getKeyCode(), !holdingLeftButton);
+                KeyBinding.setKeyBindState(minecraft.gameSettings.keyBindAttack.getKeyCode(), !holdingLeftButton);
                 holdingLeftButton = !holdingLeftButton;
                 holdLeftWasPressed = false;
             }
             if (holdRightWasPressed && !keyToggleHoldRight.isPressed()) {
-                KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindUseItem.getKeyCode(), !holdingRightButton);
+                KeyBinding.setKeyBindState(minecraft.gameSettings.keyBindUseItem.getKeyCode(), !holdingRightButton);
                 holdingRightButton = !holdingRightButton;
                 holdRightWasPressed = false;
             }

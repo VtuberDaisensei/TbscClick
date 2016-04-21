@@ -1,5 +1,6 @@
-key.tbscclick.toggleright=Auto-Click Button2
-key.tbscclick.toggleleft=Auto-Click Button1
-key.tbscclick.toggleholdleft=Hold Button1
+key.tbscclick.toggleright=Auto-Click Right Button
+key.tbscclick.toggleleft=Auto-Click Left Button
+key.tbscclick.toggleholdleft=Hold Left Button
+key.tbscclick.toggleholdright=Hold Right Button
 
 key.categories.tbscclick=TbscClick
