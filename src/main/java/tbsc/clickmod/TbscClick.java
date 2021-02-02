@@ -1,6 +1,7 @@
 package tbsc.clickmod;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.Hand;
@@ -32,11 +33,13 @@ public class TbscClick {
     public static final String MODID = "tbscclick";
     public static final String VERSION = "2.0.1";
     public static boolean shouldLeftClick = false;
+    public static boolean shouldAutoClick = false;
     public static boolean shouldRightClick = false;
     public static boolean holdingLeftButton = false;
     public static boolean holdingRightButton = false;
     public static KeyBinding keyToggleRight;
     public static KeyBinding keyToggleLeft;
+    public static KeyBinding keyToggleAutoLeft;
     public static KeyBinding keyToggleHoldRight;
     public static KeyBinding keyToggleHoldLeft;
     public static float clickDelay = 0.1F;
@@ -51,11 +54,13 @@ public class TbscClick {
 
         keyToggleRight = new KeyBinding("key.tbscclick.toggleright", GLFW.GLFW_KEY_G, "key.categories.tbscclick");
         keyToggleLeft = new KeyBinding("key.tbscclick.toggleleft", GLFW.GLFW_KEY_H, "key.categories.tbscclick");
+        keyToggleAutoLeft = new KeyBinding("key.tbscclick.toggleautoleft", GLFW.GLFW_KEY_V, "key.categories.tbscclick");
         keyToggleHoldRight = new KeyBinding("key.tbscclick.toggleholdright", GLFW.GLFW_KEY_B, "key.categories.tbscclick");
         keyToggleHoldLeft = new KeyBinding("key.tbscclick.toggleholdleft", GLFW.GLFW_KEY_N, "key.categories.tbscclick");
 
         ClientRegistry.registerKeyBinding(keyToggleRight);
         ClientRegistry.registerKeyBinding(keyToggleLeft);
+        ClientRegistry.registerKeyBinding(keyToggleAutoLeft);
         ClientRegistry.registerKeyBinding(keyToggleHoldRight);
         ClientRegistry.registerKeyBinding(keyToggleHoldLeft);
     }
@@ -84,6 +89,22 @@ public class TbscClick {
                 }
                 if (inputEvent.shouldSwingHand())
                     minecraft.player.swingArm(Hand.MAIN_HAND);
+            }
+            
+            if (shouldAutoClick && minecraft.playerController != null && minecraft.player != null) {
+                RayTraceResult rayTrace = minecraft.objectMouseOver;
+                net.minecraftforge.client.event.InputEvent.ClickInputEvent inputEvent = net.minecraftforge.client.ForgeHooksClient.onClickInput(0, minecraft.gameSettings.keyBindAttack, Hand.MAIN_HAND);
+                if(minecraft.player.getCooledAttackStrength(0) == 1.0F) {//this is the smart part of the auto smart clicker.
+	                if (rayTrace instanceof BlockRayTraceResult && rayTrace.getType() != RayTraceResult.Type.MISS) {
+	                    BlockRayTraceResult blockRayTrace = (BlockRayTraceResult) rayTrace;
+	                    if (minecraft.world != null && !minecraft.world.isAirBlock(blockRayTrace.getPos()))
+	                        minecraft.playerController.clickBlock(blockRayTrace.getPos(), blockRayTrace.getFace());
+	                } else if (rayTrace instanceof EntityRayTraceResult && minecraft.pointedEntity != null) {
+	                    minecraft.playerController.attackEntity(minecraft.player, minecraft.pointedEntity);
+	                }
+	                if (inputEvent.shouldSwingHand())
+	                    minecraft.player.swingArm(Hand.MAIN_HAND);
+                }
             }
 
             if (shouldRightClick) {
@@ -117,6 +138,17 @@ public class TbscClick {
                 sendMessage(new StringTextComponent(TextFormatting.RED + "Unable to hold left button and auto click left button at the same time! Disabled holding left button."));
             }
             shouldLeftClick = !shouldLeftClick;
+        }
+        if (keyToggleAutoLeft.isPressed()) {
+            if (holdingLeftButton) {
+                holdLeftWasPressed = true;
+                sendMessage(new StringTextComponent(TextFormatting.RED + "Unable to smart auto left click and hold left button at the same time! Disabled holding left button."));
+            }
+            if (shouldLeftClick) {
+            	shouldLeftClick = false;
+                sendMessage(new StringTextComponent(TextFormatting.RED + "Unable to auto click left button and smart auto click left button at the same time! Disabled auto click left button."));
+            }
+            shouldAutoClick = !shouldAutoClick;
         }
         if (keyToggleRight.isPressed()) {
             if (holdingRightButton) {
@@ -159,6 +191,9 @@ public class TbscClick {
         }
         if (shouldRightClick) {
             renderList.add("Auto Right Clicking");
+        }
+        if (shouldAutoClick) {
+            renderList.add("Auto Smart Left Clicking");
         }
         if (holdingLeftButton) {
             renderList.add("Holding Left Button");
