@@ -1,6 +1,7 @@
 {
   "key.tbscclick.toggleright": "Auto-Click Right Button",
   "key.tbscclick.toggleleft": "Auto-Click Left Button",
+  "key.tbscclick.toggleautoleft": "Auto-Click Left Button",
   "key.tbscclick.toggleholdleft": "Hold Left Button",
   "key.tbscclick.toggleholdright": "Hold Right Button",
 
