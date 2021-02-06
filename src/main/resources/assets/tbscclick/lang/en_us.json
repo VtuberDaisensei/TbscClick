@@ -1,9 +1,9 @@
 {
-  "key.tbscclick.toggleright": "Auto-Click Right Button",
-  "key.tbscclick.toggleleft": "Auto-Click Left Button",
+  "key.tbscclick.toggleright": "Auto-Click Right Mouse Button",
+  "key.tbscclick.toggleleft": "Auto-Click Left Mouse Button",
   "key.tbscclick.togglesmartattack": "Toggle Smart Attack",
-  "key.tbscclick.toggleholdleft": "Hold Left Button",
-  "key.tbscclick.toggleholdright": "Hold Right Button",
+  "key.tbscclick.toggleholdleft": "Hold Left Mouse Button",
+  "key.tbscclick.toggleholdright": "Hold Right Mouse Button",
 
   "key.categories.tbscclick": "TbscClick"
 }
