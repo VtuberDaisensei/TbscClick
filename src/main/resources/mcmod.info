@@ -1,0 +1,16 @@
+[
+{
+  "modid": "tbscclick",
+  "name": "TbscClick",
+  "description": "Autoclicking simplified",
+  "version": "${version}",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Tbsc"],
+  "credits": "Tbsc",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

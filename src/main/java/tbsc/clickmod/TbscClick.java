@@ -1,28 +1,22 @@
 package tbsc.clickmod;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.glfw.GLFW;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import org.lwjgl.input.Keyboard;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -30,10 +24,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod(TbscClick.MODID)
+@Mod(modid = TbscClick.MODID, useMetadata = true)
 public class TbscClick {
 
-    public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "tbscclick";
     public static boolean shouldLeftClick = false;
     public static boolean shouldSmartAttack = false;
@@ -48,27 +41,25 @@ public class TbscClick {
 
     private Minecraft minecraft = null;
 
-    public TbscClick() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetupEvent);
-    }
+    @Mod.EventHandler
+    public void onPreInit(FMLPreInitializationEvent event) {
+        if (event.getSide() == Side.CLIENT) {
+            MinecraftForge.EVENT_BUS.register(this);
 
-    @SubscribeEvent
-    public void onClientSetupEvent(FMLClientSetupEvent event) {
-        MinecraftForge.EVENT_BUS.register(this);
+            keyToggleRight = new KeyBinding("key.tbscclick.toggleright", Keyboard.KEY_G, "key.categories.tbscclick");
+            keyToggleLeft = new KeyBinding("key.tbscclick.toggleleft", Keyboard.KEY_H, "key.categories.tbscclick");
+            keyToggleSmartAttack = new KeyBinding("key.tbscclick.togglesmartattack", Keyboard.KEY_V, "key.categories.tbscclick");
+            keyToggleHoldRight = new KeyBinding("key.tbscclick.toggleholdright", Keyboard.KEY_B, "key.categories.tbscclick");
+//        keyToggleHoldLeft = new KeyBinding("key.tbscclick.toggleholdleft", Keyboard.KEY_N, "key.categories.tbscclick");
 
-        keyToggleRight = new KeyBinding("key.tbscclick.toggleright", GLFW.GLFW_KEY_G, "key.categories.tbscclick");
-        keyToggleLeft = new KeyBinding("key.tbscclick.toggleleft", GLFW.GLFW_KEY_H, "key.categories.tbscclick");
-        keyToggleSmartAttack = new KeyBinding("key.tbscclick.togglesmartattack", GLFW.GLFW_KEY_V, "key.categories.tbscclick");
-        keyToggleHoldRight = new KeyBinding("key.tbscclick.toggleholdright", GLFW.GLFW_KEY_B, "key.categories.tbscclick");
-//        keyToggleHoldLeft = new KeyBinding("key.tbscclick.toggleholdleft", GLFW.GLFW_KEY_N, "key.categories.tbscclick");
-
-        ClientRegistry.registerKeyBinding(keyToggleRight);
-        ClientRegistry.registerKeyBinding(keyToggleLeft);
-        ClientRegistry.registerKeyBinding(keyToggleSmartAttack);
-        ClientRegistry.registerKeyBinding(keyToggleHoldRight);
+            ClientRegistry.registerKeyBinding(keyToggleRight);
+            ClientRegistry.registerKeyBinding(keyToggleLeft);
+            ClientRegistry.registerKeyBinding(keyToggleSmartAttack);
+            ClientRegistry.registerKeyBinding(keyToggleHoldRight);
 //        ClientRegistry.registerKeyBinding(keyToggleHoldLeft);
 
-        minecraft = Minecraft.getInstance();
+            minecraft = Minecraft.getMinecraft();
+        }
     }
 
     boolean holdLeftWasPressed = false;
@@ -149,23 +140,20 @@ public class TbscClick {
     private void leftClick(boolean smart) {
         if (minecraft.playerController != null && minecraft.player != null) {
             RayTraceResult rayTrace = minecraft.objectMouseOver;
-            InputEvent.ClickInputEvent inputEvent = ForgeHooksClient.onClickInput(0, minecraft.gameSettings.keyBindAttack, Hand.MAIN_HAND);
             if (!smart || minecraft.player.getCooledAttackStrength(0) == 1.0F) {
-                if (rayTrace instanceof BlockRayTraceResult && rayTrace.getType() != RayTraceResult.Type.MISS) {
-                    BlockRayTraceResult blockRayTrace = (BlockRayTraceResult) rayTrace;
-                    if (minecraft.world != null && !minecraft.world.isAirBlock(blockRayTrace.getPos()))
-                        minecraft.playerController.clickBlock(blockRayTrace.getPos(), blockRayTrace.getFace());
-                } else if (rayTrace instanceof EntityRayTraceResult && minecraft.pointedEntity != null) {
+                if (rayTrace.typeOfHit == RayTraceResult.Type.BLOCK) {
+                    if (minecraft.world != null && !minecraft.world.isAirBlock(rayTrace.getBlockPos()))
+                        minecraft.playerController.clickBlock(rayTrace.getBlockPos(), rayTrace.sideHit);
+                } else if (rayTrace.typeOfHit == RayTraceResult.Type.ENTITY && minecraft.pointedEntity != null) {
                     minecraft.playerController.attackEntity(minecraft.player, minecraft.pointedEntity);
                 }
-                if (inputEvent.shouldSwingHand())
-                    minecraft.player.swingArm(Hand.MAIN_HAND);
+                minecraft.player.swingArm(EnumHand.MAIN_HAND);
             }
         }
     }
 
     private void setHoldButton(KeyBinding key, boolean held) {
-        KeyBinding.setKeyBindState(key.getKey(), held);
+        KeyBinding.setKeyBindState(key.getKeyCode(), held);
     }
 
     /**
@@ -287,13 +275,11 @@ public class TbscClick {
     }
 
     private void sendMessage(String message) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(TextFormatting.RED + message));
+        Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(TextFormatting.RED + message));
     }
 
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-        Minecraft minecraft = Minecraft.getInstance();
-
         if (event.getType() != RenderGameOverlayEvent.ElementType.TEXT) return;
 
         List<String> renderList = new ArrayList<>();
@@ -316,7 +302,7 @@ public class TbscClick {
 
         for (int i = 0; i < renderList.size(); ++i) {
             String renderString = renderList.get(i);
-            minecraft.fontRenderer.drawString(new MatrixStack(), TextFormatting.BOLD + renderString, 6, 6 + 10 * i, 0xFF0000);
+            minecraft.fontRenderer.drawString(TextFormatting.BOLD + renderString, 6, 6 + 10 * i, 0xFF0000);
         }
     }
 
