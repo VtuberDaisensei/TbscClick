@@ -18,6 +18,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +29,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mod(TbscClick.MODID)
 public class TbscClick {
@@ -172,53 +175,59 @@ public class TbscClick {
      * Calls Minecraft.rightClickMouse using reflection.
      */
     private void mcReflRightClick() {
-        mcReflInvokeMethod("rightClickMouse");
+        mcReflInvokeMethod("func_147121_ag"/*"rightClickMouse"*/);
     }
+
+    private Field leftClickCounterField = null;
 
     private void mcReflSetLeftClickCounter(int leftClickCounter) {
         try {
-            Field field = minecraft.getClass().getDeclaredField("leftClickCounter");
-            field.setAccessible(true);
-            field.set(minecraft, leftClickCounter);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
+            if (leftClickCounterField == null) {
+                leftClickCounterField = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71429_W"); // leftClickCounter
+            }
+            leftClickCounterField.setAccessible(true);
+            leftClickCounterField.set(minecraft, leftClickCounter);
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
+
     private void mcReflLeftClick(int leftClickCounter) {
         mcReflSetLeftClickCounter(leftClickCounter);
-        mcReflInvokeMethod("clickMouse");
+        mcReflInvokeMethod("func_147116_af"/*"clickMouse"*/);
     }
+
+    private Field rightClickDelayTimerField = null;
 
     private int mcReflRightClickDelayTimer() {
         try {
-            Field timer = minecraft.getClass().getDeclaredField("rightClickDelayTimer");
-            timer.setAccessible(true);
-            return (int) timer.get(minecraft);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+            if (rightClickDelayTimerField == null) {
+                rightClickDelayTimerField = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71467_ac"); // rightClickDelayTimer
+            }
+            rightClickDelayTimerField.setAccessible(true);
+            return (int) rightClickDelayTimerField.get(minecraft);
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
             return 0;
         }
     }
 
-//    private void mcReflSendClickBlockToController(boolean leftClick) {
-//        mcReflInvokeMethod("sendClickBlockToController", boolean.class, leftClick);
-//    }
-
     private void mcReflInvokeMethod(String name) {
         mcReflInvokeMethod(name, new Class[0], new Object[0]);
     }
 
-//    private void mcReflInvokeMethod(String name, Class<?> type, Object arg) {
-//        mcReflInvokeMethod(name, new Class[] { type }, new Object[] { arg });
-//    }
+    private final Map<String, Method> methods = new HashMap<>();
 
     private void mcReflInvokeMethod(String name, Class<?>[] types, Object[] args) {
         try {
-            Method method = minecraft.getClass().getDeclaredMethod(name, types);
+            if (methods.get(name) == null) {
+                methods.put(name, ObfuscationReflectionHelper.findMethod(Minecraft.class, name, types));
+            }
+            Method method = methods.get(name);
             method.setAccessible(true);
             method.invoke(minecraft, args);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
