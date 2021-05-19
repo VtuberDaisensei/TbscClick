@@ -1,9 +1,11 @@
 package tbsc.clickmod;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -36,11 +38,13 @@ public class TbscClick {
     public static boolean shouldRightClick = false;
 //    public static boolean holdingLeftButton = false;
     public static boolean holdingRightButton = false;
+    public static int clickTickInterval = 1;
     public static KeyBinding keyToggleRight;
     public static KeyBinding keyToggleLeft;
     public static KeyBinding keyToggleSmartAttack;
     public static KeyBinding keyToggleHoldRight;
 //    public static KeyBinding keyToggleHoldLeft;
+    public static KeyBinding keySpeed;
 
     private Minecraft minecraft = null;
 
@@ -54,12 +58,14 @@ public class TbscClick {
             keyToggleSmartAttack = new KeyBinding("key.tbscclick.togglesmartattack", Keyboard.KEY_V, "key.categories.tbscclick");
             keyToggleHoldRight = new KeyBinding("key.tbscclick.toggleholdright", Keyboard.KEY_B, "key.categories.tbscclick");
 //        keyToggleHoldLeft = new KeyBinding("key.tbscclick.toggleholdleft", Keyboard.KEY_N, "key.categories.tbscclick");
+            keySpeed = new KeyBinding("key.tbscclick.speed", Keyboard.KEY_N, "key.categories.tbscclick");
 
             ClientRegistry.registerKeyBinding(keyToggleRight);
             ClientRegistry.registerKeyBinding(keyToggleLeft);
             ClientRegistry.registerKeyBinding(keyToggleSmartAttack);
             ClientRegistry.registerKeyBinding(keyToggleHoldRight);
 //        ClientRegistry.registerKeyBinding(keyToggleHoldLeft);
+            ClientRegistry.registerKeyBinding(keySpeed);
 
             minecraft = Minecraft.getMinecraft();
         }
@@ -68,13 +74,21 @@ public class TbscClick {
     boolean holdLeftWasPressed = false;
     boolean holdRightWasPressed = false;
 
+    private int leftCooldown = 0;
+    private int rightCooldown = 0;
+
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         if (!minecraft.isGamePaused()) {
             /* AUTO LEFT CLICK */
 
             if (shouldLeftClick) {
-                leftClick(false);
+                if (leftCooldown == 0) {
+                    leftClick(false);
+                    leftCooldown = clickTickInterval - 1;
+                } else {
+                    leftCooldown--;
+                }
             }
 
             /* SMART ATTACK */
@@ -86,7 +100,12 @@ public class TbscClick {
             /* AUTO RIGHT CLICK */
 
             if (shouldRightClick) {
-                mcReflRightClick();
+                if (rightCooldown == 0) {
+                    mcReflRightClick();
+                    rightCooldown = clickTickInterval - 1;
+                } else {
+                    rightCooldown--;
+                }
             }
 
 //            /* HOLD LEFT CLICK */
@@ -204,16 +223,24 @@ public class TbscClick {
         mcReflInvokeMethod(name, new Class[0], new Object[0]);
     }
 
+    private void mcReflInvokeMethod(String name, Class<?>[] types, Object[] args) {
+        reflInvokeMethod(Minecraft.class, minecraft, name, types, args);
+    }
+
+    private <T> void reflInvokeMethod(Class<T> clazz, T instance, String name) {
+        reflInvokeMethod(clazz, instance, name, new Class[0], new Object[0]);
+    }
+
     private final Map<String, Method> methods = new HashMap<>();
 
-    private void mcReflInvokeMethod(String name, Class<?>[] types, Object[] args) {
+    private <T> void reflInvokeMethod(Class<T> clazz, T instance, String name, Class<?>[] types, Object[] args) {
         try {
-            if (methods.get(name) == null) {
-                methods.put(name, ObfuscationReflectionHelper.findMethod(minecraft.getClass(), name, Void.TYPE, types));
+            if (methods.get(clazz.getName() + name) == null) {
+                methods.put(clazz.getName() + name, ObfuscationReflectionHelper.findMethod(clazz, name, Void.TYPE, types));
             }
-            Method method = methods.get(name);
+            Method method = methods.get(clazz.getName() + name);
             method.setAccessible(true);
-            method.invoke(minecraft, args);
+            method.invoke(instance, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -244,6 +271,16 @@ public class TbscClick {
         if (keyToggleHoldRight.isPressed()) {
             disableAutoRightByConflict();
             holdRightWasPressed = true;
+        }
+
+        if (keySpeed.isPressed()) {
+            int chatId = 8327; // magic number
+            String plural = "s";
+            if (++clickTickInterval == 11) {
+                plural = "";
+                clickTickInterval = 1;
+            }
+            sendMessage("New auto click interval: every " + clickTickInterval + " tick" + plural, chatId);
         }
     }
 
@@ -284,6 +321,12 @@ public class TbscClick {
 
     private void sendMessage(String message) {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(TextFormatting.RED + message));
+    }
+
+    private void sendMessage(String message, int id) {
+        reflInvokeMethod(GuiNewChat.class, Minecraft.getMinecraft().ingameGUI.getChatGUI(), "func_146234_a",
+                new Class[] { ITextComponent.class, int.class },
+                new Object[] { new TextComponentString(message), id });
     }
 
     @SubscribeEvent
