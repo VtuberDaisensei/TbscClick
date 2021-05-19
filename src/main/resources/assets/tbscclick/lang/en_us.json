@@ -4,6 +4,7 @@
   "key.tbscclick.togglesmartattack": "Toggle Smart Attack",
   "key.tbscclick.toggleholdleft": "Hold Left Mouse Button",
   "key.tbscclick.toggleholdright": "Hold Right Mouse Button",
+  "key.tbscclick.speed": "Change auto clicking speed",
 
   "key.categories.tbscclick": "TbscClick"
 }
