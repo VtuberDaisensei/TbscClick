@@ -1,16 +1,16 @@
 package tbsc.clickmod;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.NewChatGui;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -18,11 +18,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -46,12 +46,12 @@ public class TbscClick {
 //    public static boolean holdingLeftButton = false;
     public static boolean holdingRightButton = false;
     public static int clickTickInterval = 1;
-    public static KeyBinding keyToggleRight;
-    public static KeyBinding keyToggleLeft;
-    public static KeyBinding keyToggleSmartAttack;
-    public static KeyBinding keyToggleHoldRight;
-//    public static KeyBinding keyToggleHoldLeft;
-    public static KeyBinding keySpeed;
+    public static KeyMapping keyToggleRight;
+    public static KeyMapping keyToggleLeft;
+    public static KeyMapping keyToggleSmartAttack;
+    public static KeyMapping keyToggleHoldRight;
+//    public static KeyMapping keyToggleHoldLeft;
+    public static KeyMapping keySpeed;
 
     private Minecraft minecraft = null;
 
@@ -63,12 +63,12 @@ public class TbscClick {
     public void onClientSetupEvent(FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
 
-        keyToggleRight = new KeyBinding("key.tbscclick.toggleright", GLFW.GLFW_KEY_G, "key.categories.tbscclick");
-        keyToggleLeft = new KeyBinding("key.tbscclick.toggleleft", GLFW.GLFW_KEY_H, "key.categories.tbscclick");
-        keyToggleSmartAttack = new KeyBinding("key.tbscclick.togglesmartattack", GLFW.GLFW_KEY_V, "key.categories.tbscclick");
-        keyToggleHoldRight = new KeyBinding("key.tbscclick.toggleholdright", GLFW.GLFW_KEY_B, "key.categories.tbscclick");
-//        keyToggleHoldLeft = new KeyBinding("key.tbscclick.toggleholdleft", GLFW.GLFW_KEY_N, "key.categories.tbscclick");
-        keySpeed = new KeyBinding("key.tbscclick.speed", GLFW.GLFW_KEY_N, "key.categories.tbscclick");
+        keyToggleRight = new KeyMapping("key.tbscclick.toggleright", GLFW.GLFW_KEY_G, "key.categories.tbscclick");
+        keyToggleLeft = new KeyMapping("key.tbscclick.toggleleft", GLFW.GLFW_KEY_H, "key.categories.tbscclick");
+        keyToggleSmartAttack = new KeyMapping("key.tbscclick.togglesmartattack", GLFW.GLFW_KEY_V, "key.categories.tbscclick");
+        keyToggleHoldRight = new KeyMapping("key.tbscclick.toggleholdright", GLFW.GLFW_KEY_B, "key.categories.tbscclick");
+//        keyToggleHoldLeft = new KeyMapping("key.tbscclick.toggleholdleft", GLFW.GLFW_KEY_N, "key.categories.tbscclick");
+        keySpeed = new KeyMapping("key.tbscclick.speed", GLFW.GLFW_KEY_N, "key.categories.tbscclick");
 
         ClientRegistry.registerKeyBinding(keyToggleRight);
         ClientRegistry.registerKeyBinding(keyToggleLeft);
@@ -88,7 +88,7 @@ public class TbscClick {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if (!minecraft.isGamePaused()) {
+        if (!minecraft.isPaused()) {
             /* AUTO LEFT CLICK */
 
             if (shouldLeftClick) {
@@ -139,20 +139,20 @@ public class TbscClick {
             /* HOLD RIGHT CLICK */
 
             // When in another screen, key should be held and right click cooldown is over, right click
-            if (holdingRightButton && !isInGame() && mcReflRightClickDelayTimer() == 0 && minecraft.player != null && !minecraft.player.isHandActive()) {
+            if (holdingRightButton && !isInGame() && mcReflRightClickDelayTimer() == 0 && minecraft.player != null && !minecraft.player.isHandsBusy()) {
                 mcReflRightClick();
             }
 
-            if (holdRightWasPressed && !keyToggleHoldRight.isPressed()) {
+            if (holdRightWasPressed && !keyToggleHoldRight.isDown()) {
                 holdingRightButton = !holdingRightButton;
-                setHoldButton(minecraft.gameSettings.keyBindUseItem, holdingRightButton);
+                setHoldButton(minecraft.options.keyUse, holdingRightButton);
                 holdRightWasPressed = false;
             }
         }
     }
 
     public boolean isInGame() {
-        return minecraft.currentScreen == null;
+        return minecraft.screen == null;
     }
 
     @SubscribeEvent
@@ -161,7 +161,7 @@ public class TbscClick {
         // Opening a screen clears all pressed keybinds, so make it pressed again
         // This will persist when exiting the screen
         if (holdingRightButton) {
-            setHoldButton(minecraft.gameSettings.keyBindUseItem, true);
+            setHoldButton(minecraft.options.keyUse, true);
         }
     }
 
@@ -169,32 +169,31 @@ public class TbscClick {
      * @param smart If true, waits until the attack cooldown is over before clicking again, despite being called.
      */
     private void leftClick(boolean smart) {
-        if (minecraft.playerController != null && minecraft.player != null) {
-            RayTraceResult rayTrace = minecraft.objectMouseOver;
-            InputEvent.ClickInputEvent inputEvent = ForgeHooksClient.onClickInput(0, minecraft.gameSettings.keyBindAttack, Hand.MAIN_HAND);
-            if (!smart || minecraft.player.getCooledAttackStrength(0) == 1.0F) {
-                if (rayTrace instanceof BlockRayTraceResult && rayTrace.getType() != RayTraceResult.Type.MISS) {
-                    BlockRayTraceResult blockRayTrace = (BlockRayTraceResult) rayTrace;
-                    if (minecraft.world != null && !minecraft.world.isAirBlock(blockRayTrace.getPos()))
-                        minecraft.playerController.clickBlock(blockRayTrace.getPos(), blockRayTrace.getFace());
-                } else if (rayTrace instanceof EntityRayTraceResult && minecraft.pointedEntity != null) {
-                    minecraft.playerController.attackEntity(minecraft.player, minecraft.pointedEntity);
+        if (minecraft.gameMode != null && minecraft.player != null) {
+            HitResult rayTrace = minecraft.hitResult;
+            InputEvent.ClickInputEvent inputEvent = ForgeHooksClient.onClickInput(0, minecraft.options.keyAttack, InteractionHand.MAIN_HAND);
+            if (!smart || minecraft.player.getAttackStrengthScale(0) == 1.0F) {
+                if (rayTrace instanceof BlockHitResult blockRayTrace && rayTrace.getType() != HitResult.Type.MISS) {
+                    if (minecraft.level != null && !minecraft.level.isEmptyBlock(blockRayTrace.getBlockPos()))
+                        minecraft.gameMode.startDestroyBlock(blockRayTrace.getBlockPos(), blockRayTrace.getDirection());
+                } else if (rayTrace instanceof EntityHitResult && minecraft.crosshairPickEntity != null) {
+                    minecraft.gameMode.attack(minecraft.player, minecraft.crosshairPickEntity);
                 }
                 if (inputEvent.shouldSwingHand())
-                    minecraft.player.swingArm(Hand.MAIN_HAND);
+                    minecraft.player.swing(InteractionHand.MAIN_HAND);
             }
         }
     }
 
-    private void setHoldButton(KeyBinding key, boolean held) {
-        KeyBinding.setKeyBindState(key.getKey(), held);
+    private void setHoldButton(KeyMapping key, boolean held) {
+        KeyMapping.set(key.getKey(), held);
     }
 
     /**
-     * Calls Minecraft.rightClickMouse using reflection.
+     * Calls Minecraft.startUseItem using reflection.
      */
     private void mcReflRightClick() {
-        mcReflInvokeMethod("func_147121_ag"/*"rightClickMouse"*/);
+        mcReflInvokeMethod("m_91277_"/*"startUseItem"*/);
     }
 
     private Field leftClickCounterField = null;
@@ -202,7 +201,7 @@ public class TbscClick {
     private void mcReflSetLeftClickCounter(int leftClickCounter) {
         try {
             if (leftClickCounterField == null) {
-                leftClickCounterField = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71429_W"); // leftClickCounter
+                leftClickCounterField = ObfuscationReflectionHelper.findField(Minecraft.class, "f_91078_"); // missTime
             }
             leftClickCounterField.setAccessible(true);
             leftClickCounterField.set(minecraft, leftClickCounter);
@@ -214,7 +213,7 @@ public class TbscClick {
 
     private void mcReflLeftClick(int leftClickCounter) {
         mcReflSetLeftClickCounter(leftClickCounter);
-        mcReflInvokeMethod("func_147116_af"/*"clickMouse"*/);
+        mcReflInvokeMethod("m_91276_"/*"startAttack"*/);
     }
 
     private Field rightClickDelayTimerField = null;
@@ -222,7 +221,7 @@ public class TbscClick {
     private int mcReflRightClickDelayTimer() {
         try {
             if (rightClickDelayTimerField == null) {
-                rightClickDelayTimerField = ObfuscationReflectionHelper.findField(Minecraft.class, "field_71467_ac"); // rightClickDelayTimer
+                rightClickDelayTimerField = ObfuscationReflectionHelper.findField(Minecraft.class, "f_91011_"); // rightClickDelay
             }
             rightClickDelayTimerField.setAccessible(true);
             return (int) rightClickDelayTimerField.get(minecraft);
@@ -261,17 +260,17 @@ public class TbscClick {
 
     @SubscribeEvent
     public void onKeyPressed(InputEvent.KeyInputEvent event) {
-        if (keyToggleLeft.isPressed()) {
+        if (keyToggleLeft.isDown()) {
 //            disableHoldLeftByConflict();
             disableSmartAttackByConflict();
             shouldLeftClick = !shouldLeftClick;
         }
-        if (keyToggleSmartAttack.isPressed()) {
+        if (keyToggleSmartAttack.isDown()) {
 //            disableHoldLeftByConflict();
             disableAutoLeftByConflict();
             shouldSmartAttack = !shouldSmartAttack;
         }
-        if (keyToggleRight.isPressed()) {
+        if (keyToggleRight.isDown()) {
             disableHoldRightByConflict();
             shouldRightClick = !shouldRightClick;
         }
@@ -281,12 +280,12 @@ public class TbscClick {
 //            disableSmartAttackByConflict();
 //            holdLeftWasPressed = true;
 //        }
-        if (keyToggleHoldRight.isPressed()) {
+        if (keyToggleHoldRight.isDown()) {
             disableAutoRightByConflict();
             holdRightWasPressed = true;
         }
 
-        if (keySpeed.isPressed()) {
+        if (keySpeed.isDown()) {
             int chatId = 8327; // magic number
             String plural = "s";
             if (++clickTickInterval == 11) {
@@ -333,13 +332,13 @@ public class TbscClick {
     }
 
     private void sendMessage(String message) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(TextFormatting.RED + message));
+        Minecraft.getInstance().gui.getChat().addMessage(new TextComponent(message).withStyle(ChatFormatting.RED));
     }
 
     private void sendMessage(String message, int id) {
-        reflInvokeMethod(NewChatGui.class, Minecraft.getInstance().ingameGUI.getChatGUI(), "func_146234_a",
-                new Class[] { ITextComponent.class, int.class },
-                new Object[] { new StringTextComponent(message), id });
+        reflInvokeMethod(ChatComponent.class, Minecraft.getInstance().gui.getChat(), "m_93787_",
+                new Class[] { Component.class, int.class },
+                new Object[] { new TextComponent(message), id });
     }
 
     @SubscribeEvent
@@ -368,7 +367,7 @@ public class TbscClick {
 
         for (int i = 0; i < renderList.size(); ++i) {
             String renderString = renderList.get(i);
-            minecraft.fontRenderer.drawString(new MatrixStack(), TextFormatting.BOLD + renderString, 6, 6 + 10 * i, 0xFF0000);
+            minecraft.font.draw(new PoseStack(), ChatFormatting.BOLD + renderString, 6, 6 + 10 * i, 0xFF0000);
         }
     }
 
