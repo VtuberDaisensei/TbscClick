@@ -55,14 +55,12 @@ public class Compat {
 
             /* AUTO RIGHT CLICK */
 
-            if (!mod.isInGame()) {
-                // Right clicking has probably caused a GUI to open, stop auto clicking
-                mod.sendMessage("Auto right clicking has stopped because a GUI opened");
-                shouldRightClick = false;
-            }
-
             if (shouldRightClick) {
-                if (rightCooldown == 0) {
+                if (!mod.isInGame()) {
+                    // Right clicking has probably caused a GUI to open, stop auto clicking
+                    mod.sendMessage("Auto right clicking has stopped because a GUI opened");
+                    shouldRightClick = false;
+                } else if (rightCooldown == 0) {
                     mcReflRightClick();
                     rightCooldown = clickTickInterval - 1;
                 } else {
