@@ -139,6 +139,11 @@ public class TbscClick implements IClick {
     }
 
     @Override
+    public boolean isInPauseMenu() {
+        return minecraft.screen instanceof PauseScreen;
+    }
+
+    @Override
     public IRayTrace getRayTrace() {
         return new RayTrace(minecraft.hitResult);
     }
