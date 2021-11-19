@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
@@ -16,8 +17,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 import tbsc.clickmod.Compat;
@@ -42,12 +45,17 @@ public class TbscClick implements IClick {
     private IKeyBind myKeyToggleHoldRight;
     private IKeyBind myKeySpeed;
 
+    private int ticksStepBetweenClicks = Config.DEF_TICKS_STEP;
+    private int maxTicksBetweenClicks = Config.DEF_MAX_TICKS;
+    private int minTicksBetweenClicks = Config.DEF_MIN_TICKS;
+
     private Minecraft minecraft = null;
 
     private Compat compat;
 
     public TbscClick() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetupEvent);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigReloaded);
     }
 
     @SubscribeEvent
@@ -76,6 +84,21 @@ public class TbscClick implements IClick {
         myKeyToggleSmartAttack = new KeyBind(keyToggleSmartAttack);
         myKeyToggleHoldRight = new KeyBind(keyToggleHoldRight);
         myKeySpeed = new KeyBind(keySpeed);
+
+        Config.loadConfig(Config.CONFIG_SPEC, FMLPaths.CONFIGDIR.get().resolve("TbscClick.toml"));
+        processConfig();
+    }
+
+    private void processConfig() {
+        ticksStepBetweenClicks = Config.ticksStep.get();
+        maxTicksBetweenClicks = Config.maxTicks.get();
+        minTicksBetweenClicks = Config.minTicks.get();
+    }
+
+    public void onConfigReloaded(ModConfigEvent event) {
+        if (event instanceof ModConfigEvent.Reloading) {
+            processConfig();
+        }
     }
 
     @SubscribeEvent
@@ -172,6 +195,21 @@ public class TbscClick implements IClick {
     @Override
     public IKeyBind getSpeedKey() {
         return myKeySpeed;
+    }
+
+    @Override
+    public int getTicksStepBetweenClicks() {
+        return ticksStepBetweenClicks;
+    }
+
+    @Override
+    public int getMaxTicksBetweenClicks() {
+        return maxTicksBetweenClicks;
+    }
+
+    @Override
+    public int getMinTicksBetweenClicks() {
+        return minTicksBetweenClicks;
     }
 
     @Override
