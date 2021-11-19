@@ -38,25 +38,25 @@ public class RayTrace implements IRayTrace {
 
     @Override
     public boolean isLookingAtEntity(Minecraft minecraft) {
-        return minecraft.pointedEntity != null;
+        return minecraft.crosshairPickEntity != null;
     }
 
     @Override
     public void leftClickEntity(Minecraft minecraft) {
-        if (minecraft.playerController != null && minecraft.player != null) {
-            minecraft.playerController.attackEntity(minecraft.player, minecraft.pointedEntity);
+        if (minecraft.gameMode != null && minecraft.player != null && minecraft.crosshairPickEntity != null) {
+            minecraft.gameMode.attack(minecraft.player, minecraft.crosshairPickEntity);
         }
     }
 
     @Override
     public boolean isEmptyBlock(Minecraft minecraft) {
-        return minecraft.world != null && minecraft.world.isAirBlock(block().getPos());
+        return minecraft.level != null && minecraft.level.isEmptyBlock(block().getBlockPos());
     }
 
     @Override
     public void leftClickBlock(Minecraft minecraft) {
-        if (minecraft.playerController != null) {
-            minecraft.playerController.clickBlock(block().getPos(), block().getFace());
+        if (minecraft.gameMode != null) {
+            minecraft.gameMode.startDestroyBlock(block().getBlockPos(), block().getDirection());
         }
     }
 }

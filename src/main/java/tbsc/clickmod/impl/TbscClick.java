@@ -17,8 +17,10 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.lwjgl.glfw.GLFW;
 import tbsc.clickmod.Compat;
 import tbsc.clickmod.IClick;
@@ -42,12 +44,17 @@ public class TbscClick implements IClick {
     private IKeyBind myKeyToggleHoldRight;
     private IKeyBind myKeySpeed;
 
+    private int ticksStepBetweenClicks = Config.DEF_TICKS_STEP;
+    private int maxTicksBetweenClicks = Config.DEF_MAX_TICKS;
+    private int minTicksBetweenClicks = Config.DEF_MIN_TICKS;
+
     private Minecraft minecraft = null;
 
     private Compat compat;
 
     public TbscClick() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetupEvent);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigReloaded);
     }
 
     @SubscribeEvent
@@ -70,12 +77,27 @@ public class TbscClick implements IClick {
 
         minecraft = Minecraft.getInstance();
 
-        myKeyUse = new KeyBind(minecraft.gameSettings.keyBindUseItem);
+        myKeyUse = new KeyBind(minecraft.options.keyUse);
         myKeyToggleRight = new KeyBind(keyToggleRight);
         myKeyToggleLeft = new KeyBind(keyToggleLeft);
         myKeyToggleSmartAttack = new KeyBind(keyToggleSmartAttack);
         myKeyToggleHoldRight = new KeyBind(keyToggleHoldRight);
         myKeySpeed = new KeyBind(keySpeed);
+
+        Config.loadConfig(Config.CONFIG_SPEC, FMLPaths.CONFIGDIR.get().resolve("TbscClick.toml"));
+        processConfig();
+    }
+
+    private void processConfig() {
+        ticksStepBetweenClicks = Config.ticksStep.get();
+        maxTicksBetweenClicks = Config.maxTicks.get();
+        minTicksBetweenClicks = Config.minTicks.get();
+    }
+
+    public void onConfigReloaded(ModConfig.ModConfigEvent event) {
+        if (event instanceof ModConfig.Reloading) {
+            processConfig();
+        }
     }
 
     @SubscribeEvent
@@ -107,35 +129,35 @@ public class TbscClick implements IClick {
 
     @Override
     public boolean isGamePaused() {
-        return minecraft.isGamePaused();
+        return minecraft.isPaused();
     }
 
     @Override
     public boolean isInGame() {
-        return minecraft.currentScreen == null;
+        return minecraft.screen == null;
     }
 
     @Override
     public IRayTrace getRayTrace() {
-        return new RayTrace(minecraft.objectMouseOver);
+        return new RayTrace(minecraft.hitResult);
     }
 
     @Override
     public float getSmartAttackCooldown() {
-        return minecraft.player.getCooledAttackStrength(0);
+        return minecraft.player.getAttackStrengthScale(0);
     }
 
     InputEvent.ClickInputEvent clickInputEvent;
 
     @Override
     public void postClickInputEvent() {
-        clickInputEvent = ForgeHooksClient.onClickInput(0, minecraft.gameSettings.keyBindAttack, Hand.MAIN_HAND);
+        clickInputEvent = ForgeHooksClient.onClickInput(0, minecraft.options.keyAttack, Hand.MAIN_HAND);
     }
 
     @Override
     public void swingHandIfShould() {
         if (clickInputEvent.shouldSwingHand() && minecraft.player != null) {
-            minecraft.player.swingArm(Hand.MAIN_HAND);
+            minecraft.player.swing(Hand.MAIN_HAND);
         }
     }
 
@@ -175,6 +197,21 @@ public class TbscClick implements IClick {
     }
 
     @Override
+    public int getTicksStepBetweenClicks() {
+        return ticksStepBetweenClicks;
+    }
+
+    @Override
+    public int getMaxTicksBetweenClicks() {
+        return maxTicksBetweenClicks;
+    }
+
+    @Override
+    public int getMinTicksBetweenClicks() {
+        return minTicksBetweenClicks;
+    }
+
+    @Override
     public String getRightClickMouseMethodMapping() {
         return "func_147121_ag";
     }
@@ -196,22 +233,22 @@ public class TbscClick implements IClick {
 
     @Override
     public void renderTextOnScreen(String text, float x, float y, int color) {
-        minecraft.fontRenderer.drawString(new MatrixStack(), TextFormatting.BOLD + text, x, y, color);
+        minecraft.font.draw(new MatrixStack(), TextFormatting.BOLD + text, x, y, color);
     }
 
     @Override
     public boolean isPlayerHandBusy() {
-        return minecraft.player != null && !minecraft.player.isHandActive();
+        return minecraft.player != null && minecraft.player.isHandsBusy();
     }
 
     @Override
     public void sendMessage(String message) {
-        minecraft.ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(message).mergeStyle(TextFormatting.RED));
+        minecraft.gui.getChat().addMessage(new StringTextComponent(message).withStyle(TextFormatting.RED));
     }
 
     @Override
     public void sendMessageWithId(String message, int id) {
-        compat.reflInvokeMethod(NewChatGui.class, minecraft.ingameGUI.getChatGUI(), "func_146234_a",
+        compat.reflInvokeMethod(NewChatGui.class, minecraft.gui.getChat(), "func_146234_a",
                 new Class[] { ITextComponent.class, int.class },
                 new Object[] { new StringTextComponent(message), id });
     }

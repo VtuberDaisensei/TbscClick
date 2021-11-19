@@ -16,11 +16,11 @@ public class KeyBind implements IKeyBind {
 
     @Override
     public void setHeld(boolean held) {
-        KeyBinding.setKeyBindState(key.getKey(), held);
+        KeyBinding.set(key.getKey(), held);
     }
 
     @Override
     public boolean isDown() {
-        return key.isKeyDown();
+        return key.isDown();
     }
 }
