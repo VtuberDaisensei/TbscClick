@@ -12,9 +12,9 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '2.3.1'
+version = '2.4.0'
 group = 'tbsc.clickmod' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'tbscclick'
+archivesBaseName = 'TbscClick'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
