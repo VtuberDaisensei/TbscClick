@@ -1,6 +1,7 @@
 package tbsc.clickmod.impl;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumHand;
@@ -148,6 +149,11 @@ public class TbscClick implements IClick {
     @Override
     public boolean isInGame() {
         return minecraft.currentScreen == null;
+    }
+
+    @Override
+    public boolean isInPauseMenu() {
+        return minecraft.currentScreen instanceof GuiIngameMenu;
     }
 
     @Override
