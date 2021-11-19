@@ -104,9 +104,9 @@ public class Compat {
         if (mod.getSpeedKey().isDown()) {
             int chatId = 8327; // magic number
             String plural = "s";
-            if (++clickTickInterval == 11) {
+            if ((clickTickInterval += mod.getTicksStepBetweenClicks()) > mod.getMaxTicksBetweenClicks()) {
                 plural = "";
-                clickTickInterval = 1;
+                clickTickInterval = mod.getMinTicksBetweenClicks();
             }
             mod.sendMessageWithId("New auto click interval: every " + clickTickInterval + " tick" + plural, chatId);
         }
