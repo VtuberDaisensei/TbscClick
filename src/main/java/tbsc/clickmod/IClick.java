@@ -10,6 +10,7 @@ public interface IClick {
     Minecraft getMinecraft();
     boolean isGamePaused();
     boolean isInGame();
+    boolean isInPauseMenu();
 
     boolean isPlayerHandBusy();
 

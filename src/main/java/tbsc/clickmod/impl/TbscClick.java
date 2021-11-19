@@ -3,6 +3,7 @@ package tbsc.clickmod.impl;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.NewChatGui;
+import net.minecraft.client.gui.screen.IngameMenuScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
@@ -135,6 +136,11 @@ public class TbscClick implements IClick {
     @Override
     public boolean isInGame() {
         return minecraft.screen == null;
+    }
+
+    @Override
+    public boolean isInPauseMenu() {
+        return minecraft.screen instanceof IngameMenuScreen;
     }
 
     @Override

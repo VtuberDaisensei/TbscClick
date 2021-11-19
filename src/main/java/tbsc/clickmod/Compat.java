@@ -56,7 +56,7 @@ public class Compat {
             /* AUTO RIGHT CLICK */
 
             if (shouldRightClick) {
-                if (!mod.isInGame()) {
+                if (!mod.isInGame() && !mod.isInPauseMenu()) {
                     // Right clicking has probably caused a GUI to open, stop auto clicking
                     mod.sendMessage("Auto right clicking has stopped because a GUI opened");
                     shouldRightClick = false;
