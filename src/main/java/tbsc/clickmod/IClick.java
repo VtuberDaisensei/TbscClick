@@ -30,6 +30,10 @@ public interface IClick {
     IKeyBind getToggleHoldRightKey();
     IKeyBind getSpeedKey();
 
+    int getTicksStepBetweenClicks();
+    int getMaxTicksBetweenClicks();
+    int getMinTicksBetweenClicks();
+
     String getRightClickMouseMethodMapping();
     String getLeftClickCounterFieldMapping();
     String getLeftClickMouseMethodMapping();
