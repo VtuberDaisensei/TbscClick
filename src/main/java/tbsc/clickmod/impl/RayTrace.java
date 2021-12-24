@@ -43,7 +43,7 @@ public class RayTrace implements IRayTrace {
 
     @Override
     public void leftClickEntity(Minecraft minecraft) {
-        if (minecraft.gameMode != null && minecraft.player != null) {
+        if (minecraft.gameMode != null && minecraft.player != null && minecraft.crosshairPickEntity != null) {
             minecraft.gameMode.attack(minecraft.player, minecraft.crosshairPickEntity);
         }
     }

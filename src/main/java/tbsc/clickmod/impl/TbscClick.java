@@ -9,10 +9,11 @@ import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,7 +22,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
 import org.lwjgl.glfw.GLFW;
 import tbsc.clickmod.Compat;
 import tbsc.clickmod.IClick;
@@ -107,7 +107,7 @@ public class TbscClick implements IClick {
     }
 
     @SubscribeEvent
-    public void onInitGuiPre(GuiScreenEvent.InitGuiEvent.Pre event) {
+    public void onInitGuiPre(ScreenEvent.InitScreenEvent.Pre event) {
         compat.onInitGuiPre();
     }
 
@@ -150,7 +150,7 @@ public class TbscClick implements IClick {
 
     @Override
     public float getSmartAttackCooldown() {
-        return minecraft.player.getAttackStrengthScale(0);
+        return minecraft.player != null ? minecraft.player.getAttackStrengthScale(0) : 0.0F;
     }
 
     InputEvent.ClickInputEvent clickInputEvent;
