@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -27,6 +26,7 @@ import tbsc.clickmod.Compat;
 import tbsc.clickmod.IClick;
 import tbsc.clickmod.IKeyBind;
 import tbsc.clickmod.IRayTrace;
+
 
 @Mod(TbscClick.MODID)
 public class TbscClick implements IClick {
@@ -249,14 +249,14 @@ public class TbscClick implements IClick {
 
     @Override
     public void sendMessage(String message) {
-        minecraft.gui.getChat().addMessage(new TextComponent(message).withStyle(ChatFormatting.RED));
+        minecraft.gui.getChat().addMessage(Component.literal(message).withStyle(ChatFormatting.RED));
     }
 
     @Override
     public void sendMessageWithId(String message, int id) {
         compat.reflInvokeMethod(ChatComponent.class, minecraft.gui.getChat(), "m_93787_",
                 new Class[] { Component.class, int.class },
-                new Object[] { new TextComponent(message), id });
+                new Object[] { Component.literal(message), id });
     }
 
 }
