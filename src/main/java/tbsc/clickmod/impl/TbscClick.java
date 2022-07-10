@@ -8,17 +8,17 @@ import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.lwjgl.glfw.GLFW;
@@ -38,19 +38,17 @@ public class TbscClick implements IClick {
     public static KeyMapping keyToggleSmartAttack;
     public static KeyMapping keyToggleHoldRight;
     public static KeyMapping keySpeed;
+    InputEvent.InteractionKeyMappingTriggered clickInputEvent;
     private IKeyBind myKeyUse;
     private IKeyBind myKeyToggleRight;
     private IKeyBind myKeyToggleLeft;
     private IKeyBind myKeyToggleSmartAttack;
     private IKeyBind myKeyToggleHoldRight;
     private IKeyBind myKeySpeed;
-
     private int ticksStepBetweenClicks = Config.DEF_TICKS_STEP;
     private int maxTicksBetweenClicks = Config.DEF_MAX_TICKS;
     private int minTicksBetweenClicks = Config.DEF_MIN_TICKS;
-
     private Minecraft minecraft = null;
-
     private Compat compat;
 
     public TbscClick() {
@@ -59,7 +57,7 @@ public class TbscClick implements IClick {
     }
 
     @SubscribeEvent
-    public void onClientSetupEvent(FMLClientSetupEvent event) {
+    public void onClientSetupEvent(RegisterKeyMappingsEvent event) {
         compat = new Compat(this);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -70,11 +68,11 @@ public class TbscClick implements IClick {
         keyToggleHoldRight = new KeyMapping("key.tbscclick.toggleholdright", GLFW.GLFW_KEY_B, "key.categories.tbscclick");
         keySpeed = new KeyMapping("key.tbscclick.speed", GLFW.GLFW_KEY_N, "key.categories.tbscclick");
 
-        ClientRegistry.registerKeyBinding(keyToggleRight);
-        ClientRegistry.registerKeyBinding(keyToggleLeft);
-        ClientRegistry.registerKeyBinding(keyToggleSmartAttack);
-        ClientRegistry.registerKeyBinding(keyToggleHoldRight);
-        ClientRegistry.registerKeyBinding(keySpeed);
+        event.register(keyToggleRight);
+        event.register(keyToggleLeft);
+        event.register(keyToggleSmartAttack);
+        event.register(keyToggleHoldRight);
+        event.register(keySpeed);
 
         minecraft = Minecraft.getInstance();
 
@@ -107,18 +105,18 @@ public class TbscClick implements IClick {
     }
 
     @SubscribeEvent
-    public void onInitGuiPre(ScreenEvent.InitScreenEvent.Pre event) {
+    public void onInitGuiPre(ScreenEvent.Init.Pre event) {
         compat.onInitGuiPre();
     }
 
     @SubscribeEvent
-    public void onKeyPressed(InputEvent.KeyInputEvent event) {
+    public void onKeyPressed(InputEvent.Key event) {
         compat.onKeyPressed();
     }
 
     @SubscribeEvent
-    public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
+    public void onRenderGameOverlay(RenderGuiOverlayEvent event) {
+        if (event.getOverlay() == VanillaGuiOverlay.DEBUG_TEXT.type()) {
             compat.onRenderGameOverlay();
         }
     }
@@ -152,8 +150,6 @@ public class TbscClick implements IClick {
     public float getSmartAttackCooldown() {
         return minecraft.player != null ? minecraft.player.getAttackStrengthScale(0) : 0.0F;
     }
-
-    InputEvent.ClickInputEvent clickInputEvent;
 
     @Override
     public void postClickInputEvent() {
@@ -255,8 +251,8 @@ public class TbscClick implements IClick {
     @Override
     public void sendMessageWithId(String message, int id) {
         compat.reflInvokeMethod(ChatComponent.class, minecraft.gui.getChat(), "m_93787_",
-                new Class[] { Component.class, int.class },
-                new Object[] { Component.literal(message), id });
+                new Class[]{Component.class, int.class},
+                new Object[]{Component.literal(message), id});
     }
 
 }
