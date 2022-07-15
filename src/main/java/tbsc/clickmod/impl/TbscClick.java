@@ -27,7 +27,6 @@ import tbsc.clickmod.IClick;
 import tbsc.clickmod.IKeyBind;
 import tbsc.clickmod.IRayTrace;
 
-
 @Mod(TbscClick.MODID)
 public class TbscClick implements IClick {
 
@@ -38,17 +37,19 @@ public class TbscClick implements IClick {
     public static KeyMapping keyToggleSmartAttack;
     public static KeyMapping keyToggleHoldRight;
     public static KeyMapping keySpeed;
-    InputEvent.InteractionKeyMappingTriggered clickInputEvent;
     private IKeyBind myKeyUse;
     private IKeyBind myKeyToggleRight;
     private IKeyBind myKeyToggleLeft;
     private IKeyBind myKeyToggleSmartAttack;
     private IKeyBind myKeyToggleHoldRight;
     private IKeyBind myKeySpeed;
+
     private int ticksStepBetweenClicks = Config.DEF_TICKS_STEP;
     private int maxTicksBetweenClicks = Config.DEF_MAX_TICKS;
     private int minTicksBetweenClicks = Config.DEF_MIN_TICKS;
+
     private Minecraft minecraft = null;
+
     private Compat compat;
 
     public TbscClick() {
@@ -150,6 +151,8 @@ public class TbscClick implements IClick {
     public float getSmartAttackCooldown() {
         return minecraft.player != null ? minecraft.player.getAttackStrengthScale(0) : 0.0F;
     }
+
+    InputEvent.InteractionKeyMappingTriggered clickInputEvent;
 
     @Override
     public void postClickInputEvent() {
