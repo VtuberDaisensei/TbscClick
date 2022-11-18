@@ -2,11 +2,13 @@ package tbsc.clickmod.impl;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.GuiMessageTag;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MessageSignature;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.InputEvent;
@@ -228,7 +230,7 @@ public class TbscClick implements IClick {
 
     @Override
     public String getLeftClickMouseMethodMapping() {
-        return "m_91276_";
+        return "m_202354_";
     }
 
     @Override
@@ -253,9 +255,9 @@ public class TbscClick implements IClick {
 
     @Override
     public void sendMessageWithId(String message, int id) {
-        compat.reflInvokeMethod(ChatComponent.class, minecraft.gui.getChat(), "m_93787_",
-                new Class[]{Component.class, int.class},
-                new Object[]{Component.literal(message), id});
+        compat.reflInvokeMethod(ChatComponent.class, minecraft.gui.getChat(), "m_240964_",
+                new Class[]{Component.class, MessageSignature.class, GuiMessageTag.class},
+                new Object[]{Component.literal(message), new MessageSignature(new byte[] {(byte) id}), GuiMessageTag.system()});
     }
 
 }
