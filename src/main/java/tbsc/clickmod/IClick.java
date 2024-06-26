@@ -1,6 +1,7 @@
 package tbsc.clickmod;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 /**
  * @author tbsc on 02/09/2021
@@ -39,7 +40,7 @@ public interface IClick {
     String getLeftClickCounterFieldMapping();
     String getLeftClickMouseMethodMapping();
     String getRightClickDelayTimerFieldMapping();
-
-    void renderTextOnScreen(String text, float x, float y, int color);
+    // [update] Grand-Teacher June-26-2024
+    void renderTextOnScreen(GuiGraphics guiGraphics, String text, int x, int y, int color);
 
 }

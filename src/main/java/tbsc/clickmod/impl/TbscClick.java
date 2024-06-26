@@ -1,20 +1,18 @@
 package tbsc.clickmod.impl;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.GuiMessageTag;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MessageSignature;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -120,7 +118,8 @@ public class TbscClick implements IClick {
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGuiOverlayEvent event) {
         if (event.getOverlay() == VanillaGuiOverlay.DEBUG_TEXT.type()) {
-            compat.onRenderGameOverlay();
+            // [update] Grand-Teacher June-26-2024
+            compat.onRenderGameOverlay(event.getGuiGraphics());
         }
     }
 
@@ -239,8 +238,9 @@ public class TbscClick implements IClick {
     }
 
     @Override
-    public void renderTextOnScreen(String text, float x, float y, int color) {
-        minecraft.font.draw(new PoseStack(), ChatFormatting.BOLD + text, x, y, color);
+    public void renderTextOnScreen(GuiGraphics guiGraphics,String text, int x, int y, int color) {
+        // [update] Grand-Teacher June-26-2024
+        guiGraphics.drawString(minecraft.font,text,x,y,color);
     }
 
     @Override

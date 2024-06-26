@@ -1,6 +1,7 @@
 package tbsc.clickmod;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import tbsc.clickmod.impl.TbscClick;
 
@@ -225,8 +226,8 @@ public class Compat {
             mod.sendMessage("Conflict: Disabled auto clicking right button.");
         }
     }
-
-    public void onRenderGameOverlay() {
+    // [update] Grand-Teacher June-26-2024
+    public void onRenderGameOverlay(GuiGraphics guiGraphics) {
         List<String> renderList = new ArrayList<>();
 
         if (shouldLeftClick) {
@@ -244,7 +245,8 @@ public class Compat {
 
         for (int i = 0; i < renderList.size(); ++i) {
             String renderString = renderList.get(i);
-            mod.renderTextOnScreen(renderString, 6, 6 + 10 * i, 0xFF0000);
+            // [add] Grand-Teacher June-26-2024
+            mod.renderTextOnScreen(guiGraphics, renderString, 6, 6 + 10 * i, 0xFF0000);
         }
     }
 

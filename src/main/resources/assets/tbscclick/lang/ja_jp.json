@@ -1,0 +1,10 @@
+{
+  "key.tbscclick.toggleright": "マウスボタン 右 自動クリック",
+  "key.tbscclick.toggleleft": "マウスボタン 左 自動クリック",
+  "key.tbscclick.togglesmartattack": "スマートアタック切替",
+  "key.tbscclick.toggleholdleft": "マウスボタン 左 保持",
+  "key.tbscclick.toggleholdright": "マウスボタン 右 保持",
+  "key.tbscclick.speed": "自動クリック速度 変更",
+
+  "key.categories.tbscclick": "TbscClick"
+}
